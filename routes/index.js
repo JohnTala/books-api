@@ -3,17 +3,11 @@ const router = express.Router();
 
 /**
  * #swagger.tags = ['Root']
- * #swagger.description = 'Welcome endpoint for the Books API'
- * #swagger.responses[200] = {
- *   description: 'API is running',
- *   schema: {
- *     message: 'Welcome to Books API. Use /books to access the books collection.'
- *   }
- * }
+ * #swagger.description = 'Welcome to Books API'
+ * #swagger.responses[200] = { description: 'API is running' }
  */
 router.get('/', (req, res) => {
-  res.setHeader('Content-Type', 'application/json');
-  res.json({ message: 'Welcome to Books API. Use /books to access the books collection.' });
+  res.json({ message: 'Welcome to Books API. Use /books to get all books.' });
 });
 
 module.exports = router;

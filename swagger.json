@@ -5,7 +5,9 @@
     "description": "API documentation for the Books project",
     "version": "1.0.0"
   },
+  "host": "localhost:5000",
   "basePath": "/",
+  "schemes": ["http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
@@ -14,93 +16,39 @@
         "tags": ["Root"],
         "description": "Welcome endpoint",
         "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": {
-                "message": "Welcome to Books API. Use /books to get all books."
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
     "/books": {
-      "get": {
-        "tags": ["Books"],
-        "description": "Get all books",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": { "$ref": "#/components/schemas/Book" }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      },
+      "get": { "tags": ["Books"], "responses": { "200": { "description": "OK" }, "500": { "description": "Internal Server Error" } } },
       "post": {
         "tags": ["Books"],
-        "description": "Create a new book",
         "parameters": [
-          {
-            "name": "body",
-            "in": "body",
-            "required": true,
-            "schema": { "$ref": "#/components/schemas/Book" }
-          }
+          { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/components/schemas/Book" } }
         ],
-        "responses": {
-          "201": { "description": "Created" },
-          "400": { "description": "Bad Request" },
-          "500": { "description": "Internal Server Error" }
-        }
+        "responses": { "201": { "description": "Created" }, "400": { "description": "Bad Request" }, "500": { "description": "Internal Server Error" } }
       }
     },
     "/books/{id}": {
       "get": {
         "tags": ["Books"],
-        "description": "Get a single book by ID",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
-        ],
-        "responses": {
-          "200": { "description": "OK", "schema": { "$ref": "#/components/schemas/Book" } },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
-        }
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": { "200": { "description": "OK" }, "404": { "description": "Not Found" }, "500": { "description": "Internal Server Error" } }
       },
       "put": {
         "tags": ["Books"],
-        "description": "Update a book by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           { "name": "body", "in": "body", "required": true, "schema": { "$ref": "#/components/schemas/Book" } }
         ],
-        "responses": {
-          "200": { "description": "OK", "schema": { "$ref": "#/components/schemas/Book" } },
-          "400": { "description": "Bad Request" },
-          "404": { "description": "Not Found" },
-          "500": { "description": "Internal Server Error" }
-        }
+        "responses": { "200": { "description": "OK" }, "400": { "description": "Bad Request" }, "404": { "description": "Not Found" }, "500": { "description": "Internal Server Error" } }
       },
       "delete": {
         "tags": ["Books"],
-        "description": "Delete a book by ID",
-        "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
-        ],
-        "responses": {
-          "200": { "description": "Book deleted successfully" },
-          "400": { "description": "Bad Request" },
-          "500": { "description": "Internal Server Error" }
-        }
+        "parameters": [{ "name": "id", "in": "path", "required": true, "type": "string" }],
+        "responses": { "200": { "description": "OK" }, "400": { "description": "Bad Request" } }
       }
     }
   },

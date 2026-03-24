@@ -12,8 +12,7 @@ const app = express();
 // --------------------
 // Middleware
 // --------------------
-app.use(cors()); // allow all origins
-app.options('*', cors());
+app.use(cors()); // Allow all origins
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -32,7 +31,7 @@ app.use('/books', bookRoutes);
 // Express error handler
 // --------------------
 app.use((err, req, res, next) => {
-  console.error('Express error: ', err);
+  console.error('Express error:', err);
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Server Error'
@@ -46,25 +45,11 @@ const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
-    const server = app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-      console.log(`Swagger UI available at http://localhost:${PORT}/api-docs`);
-    });
-
-    process.on('unhandledRejection', (err) => {
-      console.error('UNHANDLED REJECTION!');
-      console.error(err.name, err.message);
-      server.close(() => process.exit(1));
-    });
-
-    process.on('uncaughtException', (err) => {
-      console.error('UNCAUGHT EXCEPTION!');
-      console.error(err.name, err.message);
-      server.close(() => process.exit(1));
+    app.listen(PORT, () => {
+      console.log(`Server running on port ${PORT}`);
     });
   })
-  .catch((err) => {
-    console.error('DB CONNECTION FAILED');
-    console.error(err);
+  .catch(err => {
+    console.error('DB connection failed:', err);
     process.exit(1);
   });
