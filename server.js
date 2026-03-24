@@ -18,15 +18,26 @@ const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
 // --------------------
+// CORS Configuration
+// --------------------
+const corsOptions = {
+  origin: '*', // allow all origins
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+};
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight
+
+// --------------------
 // Middleware
 // --------------------
-app.use(cors());
-app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // --------------------
-// Swagger
+// Swagger UI
 // --------------------
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
@@ -37,11 +48,10 @@ app.use('/', indexRoutes);
 app.use('/books', bookRoutes);
 
 // --------------------
-// Express error handler
+// Error handler
 // --------------------
 app.use((err, req, res, next) => {
   console.error('The Express error is ', err);
-
   res.status(err.status || 500).json({
     success: false,
     message: err.message || 'Server Error'
@@ -62,10 +72,8 @@ connectDB()
     process.on('unhandledRejection', (err) => {
       console.error('UNHANDLED REJECTION!');
       console.error(err.name, err.message);
-
       server.close(() => process.exit(1));
     });
-
   })
   .catch((err) => {
     console.error('DB CONNECTION FAILED');

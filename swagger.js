@@ -3,10 +3,10 @@ const swaggerAutogen = require('swagger-autogen')();
 const doc = {
   info: {
     title: 'Books API',
-    description: 'API documentation for the Books project',
+    description: 'CRUD API for books project'
   },
   host: process.env.RENDER
-    ? 'books-api-189e.onrender.com'
+    ? 'books-api-189e.onrender.com' // replace with your Render URL
     : 'localhost:5000',
   schemes: process.env.RENDER ? ['https'] : ['http'],
   consumes: ['application/json'],
@@ -33,5 +33,5 @@ const outputFile = './swagger.json';
 const endpointsFiles = ['./routes/index.js', './routes/bookRoutes.js'];
 
 swaggerAutogen(outputFile, endpointsFiles, doc).then(() => {
-  console.log('Swagger documentation generated successfully!');
+  console.log('Swagger documentation generated!');
 });
