@@ -1,0 +1,24 @@
+##get all books
+GET http://localhost:5000/books
+
+### Get a single contact
+GET http://localhost:5000/books/69c0e4f9dee2d676188d2ed4
+
+###create a new book
+POST http://localhost:5000/books
+Content-Type: application/json
+
+{
+ "title": "What I Believe",
+  "author": "Tariq Ramadan",
+  "genre": "Philosophy / Religion / Essay",
+  "publishedYear": "2009-01-01",
+  "pages": 240,
+  "rating": 4.3
+}
+
+###Delete the book
+DELETE http://localhost:5000/books/69c0e4f9dee2d676188d2ed4
+
+
+
