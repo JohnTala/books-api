@@ -1,29 +1,20 @@
 const swaggerAutogen = require('swagger-autogen')();
 
-// ✅ Swagger configuration
 const doc = {
   info: {
     title: 'Books API',
-    description: 'API documentation for the Books project',
-    version: '1.0.0'
+    description: 'API documentation for the Books project'
   },
-  // ✅ Remove hardcoded host; Render will serve on its own domain
-  // host: 'localhost:5000',
-  basePath: '/',
-  schemes: ['https', 'http']
+  host: 'books-api-189e.onrender.com',
+  schemes: ['https'],                  
+  consumes: ['application/json'],
+  produces: ['application/json']
 };
 
-// ✅ Route files to include
-const endpointsFiles = [
-  './routes/index.js',
-  './routes/bookRoutes.js'
-];
-
-// ✅ Output file
 const outputFile = './swagger.json';
+const endpointsFiles = ['./routes/bookRoutes.js', './routes/index.js']; 
 
-// Generate swagger.json
 swaggerAutogen(outputFile, endpointsFiles, doc)
   .then(() => {
-    console.log('Swagger documentation generated!');
+    console.log('Swagger documentation generated successfully!');
   });
