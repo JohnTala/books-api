@@ -1,13 +1,13 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "Books API",
-    "description": "API documentation for the Books project",
+    "title": "Contacts API",
+    "description": "API documentation for the Contacts project",
     "version": "1.0.0"
   },
-  "host": "",
+  "host": "cse341-project1-1-4omy.onrender.com",
   "basePath": "/",
-  "schemes": ["http", "https"],
+  "schemes": ["https"],
   "paths": {
     "/": {
       "get": {
@@ -19,10 +19,10 @@
         }
       }
     },
-    "/books": {
+    "/contacts": {
       "get": {
-        "tags": ["Books"],
-        "description": "Get all books",
+        "tags": ["Contacts"],
+        "description": "Get all contacts",
         "produces": ["application/json"],
         "responses": {
           "200": { "description": "OK" },
@@ -30,8 +30,8 @@
         }
       },
       "post": {
-        "tags": ["Books"],
-        "description": "Create a new book",
+        "tags": ["Contacts"],
+        "description": "Create a new contact",
         "parameters": [
           {
             "name": "body",
@@ -39,14 +39,12 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["title", "author", "genre", "year", "rate"],
               "properties": {
-                "title": { "example": "Example Book" },
-                "author": { "example": "Tariq Ramadan" },
-                "genre": { "example": "Philosophy / Religion / Essay" },
-                "year": { "example": 2009 },
-                "pages": { "example": 240 },
-                "rate": { "example": 4.3 }
+                "firstName": { "example": "John" },
+                "lastName": { "example": "Doe" },
+                "email": { "example": "john@example.com" },
+                "favoriteColor": { "example": "Blue" },
+                "birthday": { "example": "1990-01-01" }
               }
             }
           }
@@ -58,10 +56,10 @@
         }
       }
     },
-    "/books/{id}": {
+    "/contacts/{id}": {
       "get": {
-        "tags": ["Books"],
-        "description": "Get a single book by ID",
+        "tags": ["Contacts"],
+        "description": "Get a single contact by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
@@ -72,8 +70,8 @@
         }
       },
       "put": {
-        "tags": ["Books"],
-        "description": "Update a book by ID",
+        "tags": ["Contacts"],
+        "description": "Update a contact by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" },
           {
@@ -82,14 +80,12 @@
             "required": true,
             "schema": {
               "type": "object",
-              "required": ["title", "author", "genre", "year", "rate"],
               "properties": {
-                "title": { "example": "Updated Book" },
-                "author": { "example": "Updated Author" },
-                "genre": { "example": "Updated Genre" },
-                "year": { "example": 2010 },
-                "pages": { "example": 300 },
-                "rate": { "example": 4.7 }
+                "firstName": { "example": "John" },
+                "lastName": { "example": "Doe" },
+                "email": { "example": "john@example.com" },
+                "favoriteColor": { "example": "Blue" },
+                "birthday": { "example": "1990-01-01" }
               }
             }
           }
@@ -102,14 +98,14 @@
         }
       },
       "delete": {
-        "tags": ["Books"],
-        "description": "Delete a book by ID",
+        "tags": ["Contacts"],
+        "description": "Delete a contact by ID",
         "parameters": [
           { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
-          "200": { "description": "OK" },
-          "400": { "description": "Bad Request" },
+          "200": { "description": "Deleted" },
+          "404": { "description": "Not Found" },
           "500": { "description": "Internal Server Error" }
         }
       }
