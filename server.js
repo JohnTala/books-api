@@ -2,9 +2,9 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 
-//  Catch sync errors FIRST
+// Catch sync errors FIRST
 process.on('uncaughtException', (err) => {
-  console.error('UNCAUGHT EXCEPTION! ');
+  console.error('UNCAUGHT EXCEPTION!');
   console.error(err.name, err.message);
   process.exit(1);
 });
@@ -17,19 +17,28 @@ const bookRoutes = require('./routes/bookRoutes');
 const swaggerUi = require('swagger-ui-express');
 const swaggerDocument = require('./swagger.json');
 
+// --------------------
 // Middleware
+// --------------------
 app.use(cors());
+app.options('*', cors()); // 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// --------------------
 // Swagger
+// --------------------
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// --------------------
 // Routes
+// --------------------
 app.use('/', indexRoutes);
 app.use('/books', bookRoutes);
 
-//  Express error handler
+// --------------------
+// Express error handler
+// --------------------
 app.use((err, req, res, next) => {
   console.error('The Express error is ', err);
 
@@ -39,7 +48,9 @@ app.use((err, req, res, next) => {
   });
 });
 
-//  Start server ONLY after DB connects
+// --------------------
+// Start server ONLY after DB connects
+// --------------------
 const PORT = process.env.PORT || 4000;
 
 connectDB()
@@ -50,7 +61,7 @@ connectDB()
 
     // Handle async errors
     process.on('unhandledRejection', (err) => {
-      console.error('UNHANDLED REJECTION! ');
+      console.error('UNHANDLED REJECTION!');
       console.error(err.name, err.message);
 
       server.close(() => {
@@ -60,7 +71,7 @@ connectDB()
 
   })
   .catch((err) => {
-    console.error('DB CONNECTION FAILED ');
+    console.error('DB CONNECTION FAILED');
     console.error(err);
     process.exit(1);
   });
