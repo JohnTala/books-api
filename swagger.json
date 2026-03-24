@@ -7,35 +7,22 @@
   },
   "host": "books-api-189e.onrender.com",
   "basePath": "/",
-  "schemes": ["https"],
+  "schemes": ["https", "http"],
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/": {
-      "get": {
-        "tags": ["Root"],
-        "description": "Welcome endpoint",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "examples": {
-              "application/json": {
-                "message": "Welcome to Books API. Use /books to get all books."
-              }
-            }
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
-        }
-      }
-    },
     "/books": {
       "get": {
         "tags": ["Books"],
         "description": "Get all books",
         "responses": {
-          "200": { "description": "OK" },
+          "200": {
+            "description": "List of all books",
+            "schema": {
+              "type": "array",
+              "items": { "$ref": "#/components/schemas/Book" }
+            }
+          },
           "500": { "description": "Internal Server Error" }
         }
       },
@@ -44,26 +31,18 @@
         "description": "Create a new book",
         "parameters": [
           {
-            "name": "body",
             "in": "body",
+            "name": "body",
             "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["title", "author", "genre", "publishedYear", "rating"],
-              "properties": {
-                "title": { "example": "Example Book" },
-                "author": { "example": "Tariq Ramadan" },
-                "genre": { "example": "Philosophy / Religion / Essay" },
-                "publishedYear": { "example": 2009 },
-                "pages": { "example": 240 },
-                "rating": { "example": 4.3 }
-              }
-            }
+            "schema": { "$ref": "#/components/schemas/Book" }
           }
         ],
         "responses": {
-          "201": { "description": "Created" },
-          "400": { "description": "Bad Request" },
+          "201": {
+            "description": "Book created successfully",
+            "schema": { "$ref": "#/components/schemas/Book" }
+          },
+          "400": { "description": "Validation error / Bad request" },
           "500": { "description": "Internal Server Error" }
         }
       }
@@ -73,11 +52,17 @@
         "tags": ["Books"],
         "description": "Get a single book by ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Book ID"
+          }
         ],
         "responses": {
-          "200": { "description": "OK" },
-          "404": { "description": "Not Found" },
+          "200": { "description": "Book found", "schema": { "$ref": "#/components/schemas/Book" } },
+          "404": { "description": "Book not found" },
           "500": { "description": "Internal Server Error" }
         }
       },
@@ -85,29 +70,24 @@
         "tags": ["Books"],
         "description": "Update a book by ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" },
           {
-            "name": "body",
-            "in": "body",
+            "name": "id",
+            "in": "path",
             "required": true,
-            "schema": {
-              "type": "object",
-              "required": ["title", "author", "genre", "publishedYear", "rating"],
-              "properties": {
-                "title": { "example": "Updated Book" },
-                "author": { "example": "Updated Author" },
-                "genre": { "example": "Updated Genre" },
-                "publishedYear": { "example": 2010 },
-                "pages": { "example": 300 },
-                "rating": { "example": 4.7 }
-              }
-            }
+            "type": "string",
+            "description": "Book ID"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "required": true,
+            "schema": { "$ref": "#/components/schemas/Book" }
           }
         ],
         "responses": {
-          "200": { "description": "OK" },
-          "400": { "description": "Bad Request" },
-          "404": { "description": "Not Found" },
+          "200": { "description": "Book updated successfully", "schema": { "$ref": "#/components/schemas/Book" } },
+          "400": { "description": "Validation error / Bad request" },
+          "404": { "description": "Book not found" },
           "500": { "description": "Internal Server Error" }
         }
       },
@@ -115,13 +95,35 @@
         "tags": ["Books"],
         "description": "Delete a book by ID",
         "parameters": [
-          { "name": "id", "in": "path", "required": true, "type": "string" }
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "type": "string",
+            "description": "Book ID"
+          }
         ],
         "responses": {
-          "200": { "description": "OK" },
-          "400": { "description": "Bad Request" },
+          "200": { "description": "Book deleted successfully" },
+          "404": { "description": "Book not found" },
           "500": { "description": "Internal Server Error" }
         }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "properties": {
+          "title": { "type": "string", "example": "To Kill a Mockingbird" },
+          "author": { "type": "string", "example": "Harper Lee" },
+          "genre": { "type": "string", "example": "Fiction" },
+          "publishedYear": { "type": "integer", "example": 1960 },
+          "pages": { "type": "integer", "example": 281 },
+          "rating": { "type": "number", "format": "float", "example": 4.8 }
+        },
+        "required": ["title", "author", "genre", "publishedYear", "rating"]
       }
     }
   }
