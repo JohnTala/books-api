@@ -5,21 +5,16 @@
     "description": "API documentation for the Books project",
     "version": "1.0.0"
   },
-  "host": "localhost:5000",
   "basePath": "/",
-  "schemes": ["http"],
+  "schemes": ["https", "http"],
   "paths": {
     "/": {
       "get": {
         "tags": ["Root"],
         "description": "Welcome endpoint",
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       }
     },
@@ -29,12 +24,8 @@
         "description": "Get all books",
         "produces": ["application/json"],
         "responses": {
-          "200": {
-            "description": "OK"
-          },
-          "500": {
-            "description": "Internal Server Error"
-          }
+          "200": { "description": "OK" },
+          "500": { "description": "Internal Server Error" }
         }
       },
       "post": {
@@ -51,20 +42,16 @@
                 "title": { "example": "Example Book" },
                 "author": { "example": "Tariq Ramadan" },
                 "genre": { "example": "Philosophy / Religion / Essay" },
-                "publishedYear": { "example": "2009-01-01" },
+                "year": { "example": 2009 },
                 "pages": { "example": 240 },
-                "rating": { "example": 4.3 }
+                "rate": { "example": 4.3 }
               }
             }
           }
         ],
         "responses": {
-          "201": {
-            "description": "Created"
-          },
-          "400": {
-            "description": "Bad Request"
-          }
+          "201": { "description": "Created" },
+          "400": { "description": "Bad Request" }
         }
       }
     },
@@ -73,12 +60,7 @@
         "tags": ["Books"],
         "description": "Get a single book by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "OK" },
@@ -90,12 +72,7 @@
         "tags": ["Books"],
         "description": "Update a book by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          },
+          { "name": "id", "in": "path", "required": true, "type": "string" },
           {
             "name": "body",
             "in": "body",
@@ -106,9 +83,9 @@
                 "title": { "example": "Updated Book" },
                 "author": { "example": "Updated Author" },
                 "genre": { "example": "Updated Genre" },
-                "publishedYear": { "example": "2010-01-01" },
+                "year": { "example": 2010 },
                 "pages": { "example": 300 },
-                "rating": { "example": 4.7 }
+                "rate": { "example": 4.7 }
               }
             }
           }
@@ -123,12 +100,7 @@
         "tags": ["Books"],
         "description": "Delete a book by ID",
         "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "type": "string"
-          }
+          { "name": "id", "in": "path", "required": true, "type": "string" }
         ],
         "responses": {
           "200": { "description": "OK" },
