@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 
-// Catch sync errors FIRST
+// Catch sync errors
 process.on('uncaughtException', (err) => {
   console.error('UNCAUGHT EXCEPTION!');
   console.error(err.name, err.message);
@@ -21,7 +21,7 @@ const swaggerDocument = require('./swagger.json');
 // Middleware
 // --------------------
 app.use(cors());
-app.options('*', cors()); // 
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -49,9 +49,9 @@ app.use((err, req, res, next) => {
 });
 
 // --------------------
-// Start server ONLY after DB connects
+// Start server after DB connects
 // --------------------
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
@@ -59,14 +59,11 @@ connectDB()
       console.log(`Server listening on port ${PORT}`);
     });
 
-    // Handle async errors
     process.on('unhandledRejection', (err) => {
       console.error('UNHANDLED REJECTION!');
       console.error(err.name, err.message);
 
-      server.close(() => {
-        process.exit(1);
-      });
+      server.close(() => process.exit(1));
     });
 
   })
