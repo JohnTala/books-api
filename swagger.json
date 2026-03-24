@@ -5,9 +5,9 @@
     "description": "API documentation for the Books project",
     "version": "1.0.0"
   },
-  "host": "books-api-189e.onrender.com",
+  "host": "",
   "basePath": "/",
-  "schemes": ["https"],
+  "schemes": ["http", "https"],
   "paths": {
     "/": {
       "get": {
