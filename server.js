@@ -1,6 +1,13 @@
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const connectDB = require('./database/db');
+const indexRoutes = require('./routes/index');
+const bookRoutes = require('./routes/bookRoutes');
+const swaggerUi = require('swagger-ui-express');
+const swaggerSpec = require('./swaggerConfig');
+
+const app = express();
 
 // Catch sync errors
 process.on('uncaughtException', (err) => {
@@ -9,65 +16,31 @@ process.on('uncaughtException', (err) => {
   process.exit(1);
 });
 
-const app = express();
-
-const connectDB = require('./database/db');
-const indexRoutes = require('./routes/index');
-const bookRoutes = require('./routes/bookRoutes');
-const swaggerUi = require('swagger-ui-express');
-const swaggerDocument = require('./swagger.json');
-
-// --------------------
-// CORS Configuration
-// --------------------
-const corsOptions = {
-  origin: '*', // allow all origins
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
-  preflightContinue: false,
-  optionsSuccessStatus: 204
-};
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // handle preflight
-
-// --------------------
 // Middleware
-// --------------------
+app.use(cors());
+app.options('*', cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// --------------------
 // Swagger UI
-// --------------------
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// --------------------
 // Routes
-// --------------------
 app.use('/', indexRoutes);
 app.use('/books', bookRoutes);
 
-// --------------------
-// Error handler
-// --------------------
+// Express error handler
 app.use((err, req, res, next) => {
   console.error('The Express error is ', err);
-  res.status(err.status || 500).json({
-    success: false,
-    message: err.message || 'Server Error'
-  });
+  res.status(err.status || 500).json({ success: false, message: err.message || 'Server Error' });
 });
 
-// --------------------
 // Start server after DB connects
-// --------------------
 const PORT = process.env.PORT || 5000;
 
 connectDB()
   .then(() => {
-    const server = app.listen(PORT, () => {
-      console.log(`Server listening on port ${PORT}`);
-    });
+    const server = app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
 
     process.on('unhandledRejection', (err) => {
       console.error('UNHANDLED REJECTION!');
